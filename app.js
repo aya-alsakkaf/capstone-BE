@@ -9,6 +9,11 @@ const notFoundHandler = require("./middleware/notFoundHandler");
 const errorHandler = require("./middleware/errorHandler.js");
 const passport = require("passport");
 const path = require("path");
+const vacsRouter = require("./api/vac/vacRouters");
+const petDetailsRouter = require("./api/petdetails/petdetails.Router.js");
+const servicesRouter = require("./api/services/services.Routers");
+const appointmentsRouter = require("./api/appointment/appointment.Routers");
+const ownersRouter = require("./api/owners/owners.Route");
 const {
   localStrategy,
   jwtStrategy,
@@ -31,7 +36,11 @@ passport.use("jwt", JwtStrategy);
 connectDB();
 
 // Routes
-
+app.use("/api/vac", vacsRouter);
+app.use("/api/petdetails", petDetailsRouter);
+app.use("/api/services", servicesRouter);
+app.use("/api/appointment", appointmentsRouter);
+app.use("/api/owners", ownersRouter);
 // Not Found Handling middleware
 
 app.use(notFoundHandler);
