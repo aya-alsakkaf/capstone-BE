@@ -32,7 +32,7 @@ const JwtStrategy = new JWTStrategy(
   },
   async (payload, done) => {
     try {
-      const user = await Owner.findById(payload.id);
+      const user = await Owner.findById(payload._id);
       if (!user) return done({ messsage: "User is not Found" });
 
       const expiry = new Date(payload.exp * 1000); // It converts the expiration timestamp from the JWT (which is in seconds) to millisecond
