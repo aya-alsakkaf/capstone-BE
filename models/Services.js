@@ -6,6 +6,8 @@ const ServicesSchema = new mongoose.Schema({
   name: { type: String, required: true },
   details: { type: String },
   Appts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Appointment" }],
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }], // Array of reviews
+  averageRating: { type: Number, default: 0 }, // Average rating of the servic
 });
 
 module.exports = mongoose.model("Services", ServicesSchema);

@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 
 const PetDetailSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  species: { type: String, required: true },
   breed: { type: String },
+  image: { type: String },
   birthdate: { type: Date },
   gender: { type: Boolean },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "Owner", required: true },

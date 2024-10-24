@@ -14,11 +14,13 @@ const petDetailsRouter = require("./api/petdetails/petdetails.Router.js");
 const servicesRouter = require("./api/services/services.Routers");
 const appointmentsRouter = require("./api/appointment/appointment.Routers");
 const ownersRouter = require("./api/owners/owners.Route");
+
 const {
   localStrategy,
   jwtStrategy,
   JwtStrategy,
 } = require("./middleware/passport");
+const reviewRouter = require("./api/review/review.router");
 
 //init
 const PORT = process.env.PORT || 5000;
@@ -41,6 +43,8 @@ app.use("/api/petdetails", petDetailsRouter);
 app.use("/api/services", servicesRouter);
 app.use("/api/appointment", appointmentsRouter);
 app.use("/api/owners", ownersRouter);
+app.use("/api/review", reviewRouter);
+
 // Not Found Handling middleware
 
 app.use(notFoundHandler);
