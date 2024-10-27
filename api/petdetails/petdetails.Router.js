@@ -1,9 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const petDetailController = require("./petdetails.Controller");
-
-router.post("/", petDetailController.createPetDetail);
-router.get("/", petDetailController.getPetDetails);
-router.put("/:id", petDetailController.updatePetDetail);
-router.delete("/:id", petDetailController.deletePetDetail);
+const passport = require("passport");
+const upload = require("../../middleware/multer");
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  petDetailController.createPetDetail
+);
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  petDetailController.getPetDetails
+);
+router.put(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  petDetailController.updatePetDetail
+);
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  petDetailController.deletePetDetail
+);
 module.exports = router;
