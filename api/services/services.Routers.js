@@ -17,4 +17,25 @@ router.get(
   servicesController.getServices
 );
 
+// Get Single Service by ID
+router.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  servicesController.getServiceById
+);
+
+// Update Service
+router.put(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  servicesController.updateService
+);
+
+// Delete Service
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  servicesController.deleteService
+);
+
 module.exports = router;

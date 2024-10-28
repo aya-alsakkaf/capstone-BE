@@ -36,3 +36,29 @@ exports.getAppointments = async (req, res, next) => {
     next(err);
   }
 };
+
+// Get single Appointment by ID
+exports.getAppointmentById = async (req, res, next) => {
+  try {
+    const appointmentId = req.params.id;
+    const appointment = await Appointment.findById(appointmentId);
+    res.status(200).json(appointment);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Update Appointment
+exports.updateAppointment = async (req, res, next) => {
+  try {
+    const appointmentId = req.params.id;
+    const updatedAppointment = await Appointment.findByIdAndUpdate(
+      appointmentId,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(updatedAppointment);
+  } catch (err) {
+    next(err);
+  }
+};
