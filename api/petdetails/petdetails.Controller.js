@@ -79,3 +79,24 @@ exports.deletePetDetail = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get single PetDetail by ID
+exports.getPetDetailById = async (req, res, next) => {
+  try {
+    const petId = req.params.id;
+    const petDetail = await PetDetail.findOne({
+      _id: petId,
+      owner: req.user._id,
+    });
+
+    if (!petDetail) {
+      return res.status(404).json({
+        message: "Pet not found or you're not authorized to view it",
+      });
+    }
+
+    res.status(200).json(petDetail);
+  } catch (error) {
+    next(error);
+  }
+};

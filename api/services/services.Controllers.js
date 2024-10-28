@@ -27,3 +27,63 @@ exports.getServices = async (req, res, next) => {
     next(err);
   }
 };
+
+const Service = require("../../models/Service");
+
+// Get single Service by ID
+exports.getOneService = async (req, res, next) => {
+  try {
+    const serviceId = req.params.id;
+    const service = await Service.findOne({
+      _id: serviceId,
+      owner: req.user._id,
+    }).populate("relatedField"); // Replace "relatedField" with actual fields if needed
+
+    if (!service) {
+      return res.status(404).json({
+        message: "Service not found or you're not authorized to view it",
+      });
+    }
+
+    res.status(200).json(service);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete Service by ID
+exports.deleteService = async (req, res, next) => {
+  try {
+    const serviceId = req.params.id;
+    const deletedService = await Service.findOneAndDelete({
+      _id: serviceId,
+      owner: req.user._id,
+    });
+
+    if (!deletedService) {
+      return res.status(404).json({
+        message: "Service not found or you're not authorized to delete it",
+      });
+    }
+
+    res.status(200).json({ message: "Service deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Update Service
+exports.updateService = async (req, res, next) => {
+  try {
+    const serviceId = req.params.id;
+    const updatedService = await Service.findByIdAndUpdate(
+      serviceId,
+      req.body,
+      { new: true }
+    );
+
+    res.status(200).json(updatedService);
+  } catch (error) {
+    next(error);
+  }
+};

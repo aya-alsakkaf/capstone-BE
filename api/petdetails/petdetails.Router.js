@@ -26,3 +26,9 @@ router.delete(
   petDetailController.deletePetDetail
 );
 module.exports = router;
+
+router.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  petDetailController.getPetDetailById
+);
