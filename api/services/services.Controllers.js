@@ -28,8 +28,6 @@ exports.getServices = async (req, res, next) => {
   }
 };
 
-const Service = require("../../models/Service");
-
 // Get single Service by ID
 exports.getOneService = async (req, res, next) => {
   try {

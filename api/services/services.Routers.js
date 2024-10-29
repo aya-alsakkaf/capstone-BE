@@ -21,7 +21,7 @@ router.get(
 router.get(
   "/:id",
   passport.authenticate("jwt", { session: false }),
-  servicesController.getServiceById
+  servicesController.getOneService
 );
 
 // Update Service
