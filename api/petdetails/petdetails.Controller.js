@@ -9,39 +9,55 @@ exports.createPetDetail = async (req, res, next) => {
     console.log(req.body);
     const birthDate = new Date(req.body.birthDate);
     console.log(birthDate);
-    // Add owner ID to the pet details
-    const appointments = [];
-    const vacs = [];
+
+    // Prepare pet data with empty arrays for Appts and VACS
     const petData = {
       ...req.body,
       owner: req.user._id,
+      image: req.file ? req.file.path : null,
       birthDate,
+      gender: req.body.gender === "Male" ? true : false,
       Appts: [],
       VACS: [],
     };
     const petDetail = await PetDetail.create(petData);
 
-    req.body.Appts.forEach(async (appointment) => {
-      const newApp = await Appointment.create({
-        ...appointment,
-        pet: petDetail._id,
-      });
-      appointments.push(newApp._id);
-    });
-    req.body.VACS.forEach(async (vac) => {
-      const newVac = await VAC.create({ ...vac, pet: petDetail._id });
-      vacs.push(newVac._id);
-    });
+    // Handle appointments if provided
+    const appointments =
+      req.body.Appts && Array.isArray(req.body.Appts)
+        ? await Promise.all(
+            req.body.Appts.map(async (appointment) => {
+              const newApp = await Appointment.create({
+                ...appointment,
+                pet: petDetail._id,
+              });
+              return newApp._id;
+            })
+          )
+        : [];
 
+    // Handle vaccinations if provided
+    const vacs =
+      req.body.VACS && Array.isArray(req.body.VACS)
+        ? await Promise.all(
+            req.body.VACS.map(async (vac) => {
+              const newVac = await VAC.create({ ...vac, pet: petDetail._id });
+              return newVac._id;
+            })
+          )
+        : [];
+
+    // Update the petDetail document with the new Appts and VACS
     petDetail.Appts = appointments;
     petDetail.VACS = vacs;
     await petDetail.save();
 
-    console.log("petDetail");
+    // Update the owner document with the new pet
     await Owner.findByIdAndUpdate(req.user._id, {
       $push: { pets: petDetail._id },
     });
-    console.log("owner updated");
+
+    console.log("Owner updated and petDetail created");
     res.status(201).json(petDetail);
   } catch (error) {
     next(error);
