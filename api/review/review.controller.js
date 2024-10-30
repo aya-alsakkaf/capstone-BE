@@ -4,20 +4,21 @@ const Service = require("../../models/Services");
 // Create a new review for a service
 exports.createReview = async (req, res) => {
   try {
-    const { rating, reviewText, serviceId, userId } = req.body;
+    const { rating, reviewText, services, Owner, date } = req.body;
 
     // Ensure service exists
-    const service = await Service.findById(serviceId);
+    const service = await Service.findById(services);
     if (!service) {
       return res.status(404).json({ message: "Service not found" });
     }
 
     // Create the review
     const review = new Review({
-      service: serviceId,
+      service: services, // Save the service ID in the review
       rating,
       reviewText,
-      user: userId,
+      Owner,
+      date,
     });
 
     const savedReview = await review.save();

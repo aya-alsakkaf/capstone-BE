@@ -4,32 +4,16 @@ const servicesController = require("./services.Controllers");
 const passport = require("passport");
 
 // Create Service
-router.post(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  servicesController.createService
-);
+router.post("/", servicesController.createService);
 
 // Get All Services
-router.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  servicesController.getServices
-);
+router.get("/", servicesController.getServices);
 
 // Get Single Service by ID
-router.get(
-  "/:id",
-  passport.authenticate("jwt", { session: false }),
-  servicesController.getOneService
-);
+router.get("/:id", servicesController.getOneService);
 
 // Update Service
-router.put(
-  "/:id",
-  passport.authenticate("jwt", { session: false }),
-  servicesController.updateService
-);
+router.put("/:id", servicesController.updateService);
 
 // Delete Service
 router.delete(

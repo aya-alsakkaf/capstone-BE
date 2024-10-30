@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const reviewSchema = new Schema({
-  services: {
+const ReviewSchema = new mongoose.Schema({
+  service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Services",
     required: true,
@@ -10,8 +10,7 @@ const reviewSchema = new Schema({
   rating: { type: Number, required: true, min: 1, max: 5 }, // Rating from 1 to 5
   reviewText: { type: String, required: true },
   Owner: { type: mongoose.Schema.Types.ObjectId, ref: "Owner", required: true }, // Reference to the owner (user)
-  date: { type: Date, default: Date.now },
+  date: { type: Date },
 });
 
-const Review = mongoose.model("Review", reviewSchema);
-module.exports = Review;
+module.exports = mongoose.model("Review", ReviewSchema);
