@@ -17,4 +17,25 @@ router.get(
   appointmentController.getAppointments
 );
 
+// Get single Appointment by ID
+router.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  appointmentController.getAppointmentById
+);
+
+// Update Appointment
+router.put(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  appointmentController.updateAppointment
+);
+
+// Delete Appointment
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  appointmentController.deleteAppointment
+);
+
 module.exports = router;

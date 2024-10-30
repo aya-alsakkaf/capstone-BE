@@ -19,3 +19,38 @@ exports.getVACs = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get single VAC by ID
+exports.getVACById = async (req, res, next) => {
+  try {
+    const vacId = req.params.id;
+    const vac = await VAC.findById(vacId);
+    res.status(200).json(vac);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Update VAC
+exports.updateVAC = async (req, res, next) => {
+  try {
+    const vacId = req.params.id;
+    const updatedVAC = await VAC.findByIdAndUpdate(vacId, req.body, {
+      new: true,
+    });
+    res.status(200).json(updatedVAC);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete VAC
+exports.deleteVAC = async (req, res, next) => {
+  try {
+    const vacId = req.params.id;
+    await VAC.findByIdAndDelete(vacId);
+    res.status(200).json({ message: "VAC deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
