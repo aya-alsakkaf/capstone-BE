@@ -1,4 +1,4 @@
-//const User = require("../models/User");
+const Owner = require("../models/Owner");
 const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
 const JWTStrategy = require("passport-jwt").Strategy;
@@ -13,7 +13,7 @@ const localStrategy = new LocalStrategy(
   },
   async (username, password, done) => {
     try {
-      const foundUser = await User.findOne({ username: username }); //find the user
+      const foundUser = await Owner.findOne({ username: username }); //find the user
       if (!foundUser)
         return done({ message: "Username or password incorrect" });
       const isMatch = await bcrypt.compare(password, foundUser.password); //check password
@@ -32,7 +32,7 @@ const JwtStrategy = new JWTStrategy(
   },
   async (payload, done) => {
     try {
-      const user = await User.findById(payload.id);
+      const user = await Owner.findById(payload.id);
       if (!user) return done({ messsage: "User is not Found" });
 
       const expiry = new Date(payload.exp * 1000); // It converts the expiration timestamp from the JWT (which is in seconds) to millisecond
