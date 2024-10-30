@@ -1,5 +1,7 @@
+const Appointment = require("../../models/Appointment");
 const Owner = require("../../models/Owner");
 const PetDetail = require("../../models/PetDetails");
+const VAC = require("../../models/VAC");
 
 // Create PetDetail
 exports.createPetDetail = async (req, res, next) => {
@@ -8,8 +10,33 @@ exports.createPetDetail = async (req, res, next) => {
     const birthDate = new Date(req.body.birthDate);
     console.log(birthDate);
     // Add owner ID to the pet details
-    const petData = { ...req.body, owner: req.user._id, birthDate };
+    const appointments = [];
+    const vacs = [];
+    const petData = {
+      ...req.body,
+      owner: req.user._id,
+      birthDate,
+      Appts: [],
+      VACS: [],
+    };
     const petDetail = await PetDetail.create(petData);
+
+    req.body.Appts.forEach(async (appointment) => {
+      const newApp = await Appointment.create({
+        ...appointment,
+        pet: petDetail._id,
+      });
+      appointments.push(newApp._id);
+    });
+    req.body.VACS.forEach(async (vac) => {
+      const newVac = await VAC.create({ ...vac, pet: petDetail._id });
+      vacs.push(newVac._id);
+    });
+
+    petDetail.Appts = appointments;
+    petDetail.VACS = vacs;
+    await petDetail.save();
+
     console.log("petDetail");
     await Owner.findByIdAndUpdate(req.user._id, {
       $push: { pets: petDetail._id },

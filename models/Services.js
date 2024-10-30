@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const ServicesSchema = new mongoose.Schema({
-  serviceType: { type: Boolean, required: true },
+  serviceType: {
+    type: String,
+    enum: ["Vet Clinic", "Grooming Service", "other"],
+    required: true,
+  },
   phone: { type: String, required: true },
   name: { type: String, required: true },
   details: { type: String },
