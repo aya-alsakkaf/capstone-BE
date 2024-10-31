@@ -3,13 +3,19 @@ const Services = require("../../models/Services");
 // Create Service
 exports.createService = async (req, res, next) => {
   try {
-    const { serviceType, phone, name, details } = req.body;
-
+    const { serviceType, phone, name, details, image, reviews, appts } =
+      req.body;
+    console.log(serviceType);
+    const location = JSON.parse(req.body.location);
     const newService = await Services.create({
       serviceType,
       phone,
       name,
       details,
+      location,
+      image: req.file ? req.file.path : null,
+      reviews,
+      appts,
     });
 
     res.status(201).json(newService);

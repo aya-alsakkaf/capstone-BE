@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const servicesController = require("./services.Controllers");
 const passport = require("passport");
+const upload = require("../../middleware/multer");
 
 // Create Service
-router.post("/", servicesController.createService);
+router.post("/", upload.single("image"), servicesController.createService);
 
 // Get All Services
 router.get("/", servicesController.getServices);
