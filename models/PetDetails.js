@@ -6,7 +6,7 @@ const PetDetailSchema = new mongoose.Schema({
   breed: { type: String },
   image: { type: String },
   birthdate: { type: Date },
-  gender: { type: Boolean },
+  gender: { type: String, enum: ["male", "female", "other"], required: true },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "Owner", required: true },
   VACS: [{ type: mongoose.Schema.Types.ObjectId, ref: "VAC" }],
   Appts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Appointment" }],
