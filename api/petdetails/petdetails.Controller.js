@@ -16,7 +16,7 @@ exports.createPetDetail = async (req, res, next) => {
       owner: req.user._id,
       image: req.file ? req.file.path : null,
       birthDate,
-      gender: req.body.gender === "Male" ? true : false,
+      gender: req.body.gender,
       Appts: [],
       VACS: [],
     };
