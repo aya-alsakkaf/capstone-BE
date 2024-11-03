@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const AppointmentSchema = new mongoose.Schema({
   date: { type: Date, required: true },
+  time: { type: String, required: true },
   service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Services",

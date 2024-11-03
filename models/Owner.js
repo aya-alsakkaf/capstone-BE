@@ -6,6 +6,8 @@ const OwnerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phone: { type: String, required: true },
   pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "PetDetail" }],
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Services" }],
+  image: { type: String },
 });
 
 module.exports = mongoose.model("Owner", OwnerSchema);
