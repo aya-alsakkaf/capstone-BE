@@ -5,21 +5,28 @@ const Services = require("../../models/Services");
 // Create Appointment
 exports.createAppointment = async (req, res, next) => {
   try {
-    const { date, serviceId, petId, notes } = req.body;
+    const { date, time, serviceId, petId, notes } = req.body;
 
     const pet = await PetDetail.findById(petId);
     const service = await Services.findById(serviceId);
 
     if (!pet || !service) {
-      return res.status(400).json({ message: "Pet or service not found" });
+      console.log("first");
+      return res.status(404).json({ message: "Pet or service not found" });
     }
 
     const appointment = await Appointment.create({
-      date,
+      date: new Date(date.slice(0, 10)),
+      time,
       service: serviceId,
       pet: petId,
       notes,
     });
+
+    service.Appts.push(appointment._id);
+    await service.save();
+    pet.Appts.push(appointment._id);
+    await pet.save();
 
     res.status(201).json(appointment);
   } catch (err) {
