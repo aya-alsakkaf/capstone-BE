@@ -68,9 +68,12 @@ exports.createPetDetail = async (req, res, next) => {
 exports.getPetDetails = async (req, res, next) => {
   try {
     // Filter pets by owner ID
-    const pets = await PetDetail.find({ owner: req.user._id }).populate(
-      "VACS Appts"
-    );
+    const pets = await PetDetail.find({ owner: req.user._id }).populate({
+      path: "Appts",
+      populate: {
+        path: "service",
+      },
+    });
     res.status(200).json(pets);
   } catch (error) {
     next(error);
