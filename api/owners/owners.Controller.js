@@ -56,7 +56,7 @@ exports.signin = async (req, res, next) => {
 exports.getMyProfile = async (req, res, next) => {
   try {
     const owner = await Owner.findById(req.user._id).populate("pets");
-    console.log(owner);
+    // console.log(owner);
     if (!owner) {
       return res.status(404).json({ message: "Owner not found" });
     }
