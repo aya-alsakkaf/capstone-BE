@@ -16,7 +16,7 @@ exports.createAppointment = async (req, res, next) => {
     }
 
     const appointment = await Appointment.create({
-      date: new Date(date.slice(0, 10)),
+      date: new Date(date),
       time,
       service: serviceId,
       pet: petId,
