@@ -6,7 +6,7 @@ const VAC = require("../../models/VAC");
 // Create PetDetail
 exports.createPetDetail = async (req, res, next) => {
   try {
-    console.log(req.body);
+    console.log("PET ADDED", req.body);
     const birthDate = new Date(req.body.birthDate);
     console.log(birthDate);
 
@@ -16,7 +16,7 @@ exports.createPetDetail = async (req, res, next) => {
       owner: req.user._id,
       image: req.file ? req.file.path : null,
       birthDate,
-      gender: req.body.gender,
+      gender: req.body.gender ? "female" : "male",
       Appts: [],
       VACS: [],
     };
