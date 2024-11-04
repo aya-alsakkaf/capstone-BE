@@ -55,8 +55,14 @@ exports.signin = async (req, res, next) => {
 // Get profile
 exports.getMyProfile = async (req, res, next) => {
   try {
-    const owner = await Owner.findById(req.user._id).populate("pets");
-    // console.log(owner);
+    const owner = await Owner.findById(req.user._id)
+      .populate("pets")
+      .populate({
+        path: "pets",
+        populate: {
+          path: "Appts",
+        },
+      });
     if (!owner) {
       return res.status(404).json({ message: "Owner not found" });
     }
